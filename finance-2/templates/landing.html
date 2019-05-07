@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block title %} SLARBI INVEST {% endblock %}
+{% block main %}
+<section onload="ticknav('home')">
+    <div class="section-container-root">
+        <div class="section-container">
+            <div class="section-holder">
+                <h2 class="intro-header" id="mobile-intro-header">Invest With Slarbi Corp</h2>
+                <div class="graphic-side">
+                    <figure>
+                        <img src="https://t4.ftcdn.net/jpg/02/40/41/95/240_F_240419504_8ivJcQgkGT7VEbX0Nj4XBVmAymE4TwbS.jpg" alt="Grow money" class="side-image">
+                        <figcaption>UP and UP and UP!</figcaption>
+                    </figure>
+                </div>
+                <div class="intro">
+                    <h2 id="desktop-intro-header" class="intro-header">Invest with Slarbi Corp</h2>
+                    <p>In general, to invest is to distribute money in the expectation of some benefit in the future – for example, investment in durable goods, in real estate by the service industry, in factories for manufacturing, in product development, and in research and development. However, this article focuses specifically on investment in financial assets.
+
+In finance, the benefit from investment is called a return.<span id="continued"> The return may consist of a profit from the sale of property or an investment, or investment income including dividends, interests, rental income etc., or a combination of the two. The projected economic return is the appropriately discounted value of the future returns.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="hooks-title">Start Now!</h2>
+    <div class="hook-container">
+        <div class="hook-holder">
+            <div class="hooks">
+                <a href="/register" class="hook-button">Sign Up</a>
+                <a href="/login"class="hook-button">Log In</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="section1-container">
+        <div class="section-graphic"><img class="section-image" src="static/moneypile.jpg"></div>
+        <div class="section-text-container">
+            <div class="section-text">
+                <h2 class="section-header">Put your money to good use.</h2>
+                <h3 class="section-header">Step 1: <a class="signuplink" href="/register">Sign Up</a></h3>
+                <p class="section-description1">The first step towards monetary growth is to take ownership of your life. No one gets anywhere without action. Be one of those very few people who have the curage to invest and grow.</p>
+            </div>
+        </div>
+    </div>
+    <div class="section2-container">
+        <div class="section-graphic"><img class="section-image" src="https://as2.ftcdn.net/jpg/02/00/82/77/500_F_200827744_ziA8xJ428z4nEte9LAfO5rNo2QQebAVR.jpg"></div>
+        <div class="section-text-container">
+            <div class="section-text">
+                <h3 class="section-header2">Step 2: Buy stocks that go up</h3>
+                <p class="section-description2">The most common way of making money in the stock market is to buy stocks you beleive are undervalued by the market and will rise in price. Do careful research to determine the true value of the company, and if it is undervalued, buy!</p>
+            </div>
+        </div>
+    </div>
+    <div class="section3-container">
+        <div class="section-graphic"><img class="section-image" src="https://d1dh93s7n44ml6.cloudfront.net/blog/wp-content/uploads/2017/04/19164939/Mobile-Payments.jpg"></div>
+        <div class="section-text-container">
+            <div class="section-text">
+                <h3 class="section-header">Step 3: Sell and cash out</h3>
+                <p class="section-description1">Once you've had your fill of growth, easily sell the stock and earn your profits!</p>
+            </div>
+        </div>
+    </div>
+    <div class="section2-container">
+        <div class="section-graphic"><img class="section-image" src="https://media.istockphoto.com/vectors/money-growth-illustration-vector-id977740384"></div>
+        <div class="section-text-container">
+            <div class="section-text">
+                <h3 class="section-header2">Step 4: Return to step 2</h3>
+                <p class="section-description2">Keep your growth going! Diversification is the key to avoiding the random ups and downs of the market. Make sure your portfolio does not depend too much upon a company, industry, or groups of industries. Stay dynamic and on your toes.</p>
+            </div>
+        </div>
+    </div>
+    <div class="section3-container">
+        <div class="section-graphic"><img class="section-image" src="https://png.pngtree.com/element_our/png_detail/20181226/hand-holding-phone-with-dollar-sign-on-screen-vector-illustration-png_282595.jpg"></div>
+        <div class="section-text-container">
+            <div class="section-text">
+                <h3 class="section-header">Step 5: Enjoy your hard work</h3>
+                <p class="section-description1">If you keep investing and reinvesting, you will acheive financial security for years to come. Once more, your growth will become easier as you will have more and more capital to invest. Take your first steps towards financial freedom today!</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <div class="hook-big-container">
+        <div class="hook-holder">
+            <div class="hook-big">
+                <a href="/register"><button class="hook-button-big">Sign Up</button></a>
+            </div>
+        </div>
+    </div>
+    <script>
+    window.onload = function() {
+        document.getElementById('home').style.borderBottom = '3px solid #4ED48D';
+    };
+</script>
+{% endblock %}
+

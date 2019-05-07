@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!-- documentation at http://getbootstrap.com/docs/4.0/, alternative themes at https://bootswatch.com/4-alpha/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <link href="/static/styles.css" rel="stylesheet"/>
+        <link href="/static/c3/c3.css" rel="stylesheet">
+        <!-- Load d3.js and c3.js -->
+        <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+        <script src="/static/c3/c3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="/static/canvasjs-2.3.1/canvasjs.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+                    function toggleNav() {
+                        let menu1 = document.querySelector('#mobile-menu-holder');
+                        let menu2 = document.querySelector('#mobile-dropped-menu');
+                        let body = document.querySelector('.body-root');
+                        let img = document.querySelector('.side-image');
+                        let footer = document.querySelector('footer');
+                        if (menu1.style.display === 'none') {
+                            menu1.style.WebkitTransition = "height 1s";
+                            menu1.style.Transition = "height 1s";
+                            menu1.style.display = 'block';
+                            menu2.style.display = 'none';
+                            footer.style.display = 'block';
+                            body.style.display = 'block';
+                        }
+                        else {
+                            menu1.style.display = 'none';
+                            menu2.style.display = 'block';
+                            menu2.style.height = '100vh';
+                            footer.style.display = 'none';
+                            body.style.display = 'none';
+                        }
+                    }
+                    function authenticateLogin() {
+                        var username = document.querySelector('#username');
+                        var password = document.querySelector('#password');
+                        var nousername = document.querySelector('#no_username');
+                        var nopassword = document.querySelector('#no_password');
+                        if (username.value == "") {
+                            username.style.borderColor = '#d50000';
+                            nousername.style = 'block';
+                            nousername.innerHTML = "Please enter your username";
+                            if (password.value == "") {
+                            password.style.borderColor = '#d50000';
+                            nopassword.style = 'block';
+                            nopassword.innerHTML = "Please enter your password";
+                            return false;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        if (password.value == "") {
+                            password.style.borderColor = '#d50000';
+                            nopassword.style = 'block';
+                            nopassword.innerHTML = "Please enter your password";
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    function authenticateSignup() {
+                        var fname = document.querySelector('#fname');
+                        var lname = document.querySelector('#lname');
+                        var nolname = document.querySelector('#no_lname');
+                        var nofname = document.querySelector('#no_fname');
+                        var username = document.querySelector('#username');
+                        var password = document.querySelector('#password');
+                        var nousername = document.querySelector('#no_username');
+                        var nopassword = document.querySelector('#no_password');
+                        var valid = true;
+                        if (!fname.value) {
+                            fname.style.borderColor = '#d50000';
+                            nofname.style.display = 'block';
+                            nofname.innerHTML = "Please provide your first name.";
+                            valid = false;
+                        }
+                        if (fname.value) {
+                            fname.style.borderColor = 'grey';
+                            nofname.style.display = 'none';
+                        }
+                        if (!lname.value) {
+                            lname.style.borderColor = '#d50000';
+                            nolname.style.display = 'block';
+                            nolname.innerHTML = "Please provide your last name.";
+                            valid = false;
+                        }
+                        if (lname.value) {
+                            lname.style.borderColor = 'grey';
+                            nolname.style.display = 'none';
+                        }
+                        if (!username.value) {
+                            username.style.borderColor = '#d50000';
+                            nousername.style.display = 'block';
+                            nousername.innerHTML = "Please enter your username";
+                            valid = false;
+                        }
+                        if (username.value) {
+                            username.style.borderColor = 'grey';
+                            nousername.style.display = 'none';
+                        }
+                        if (!password.value) {
+                            password.style.borderColor = '#d50000';
+                            nopassword.style.display = 'block';
+                            nopassword.innerHTML = "Please enter your password";
+                            valid = false;
+                        }
+                        if (password.value) {
+                            password.style.borderColor = 'grey';
+                            nopassword.style.display = 'none';
+                        }
+                        var letters = /^[A-Za-z]+$/;
+                        if (!fname.value.match(letters)) {
+                            fname.style.borderColor = '#d50000';
+                            nofname.style.display = 'block';
+                            nofname.innerHTML = "Please provide a valid first name.";
+                            valid = false;
+                        }
+                        if (!lname.value.match(letters)) {
+                            lname.style.borderColor = '#d50000';
+                            nolname.style.display = 'block';
+                            nolname.innerHTML = "Please provide a valid last name.";
+                            valid = false;
+                        }
+                        return valid;
+                    }
+                </script>
+                <script>
+                    function ticknav(page) {
+                        var nav = document.getElementById(page);
+                        nav.style.borderBottom = "3px solid #4ED48D";
+                    };
+                </script>
+
+        <title>{% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+        <nav class="navbar0">
+            <div class="navbar-container-root">
+                <div class="navbar-holder">
+                    <a class="logo-container" href="/">
+                        <div class="logo">
+                            <img src="static/logo2.jpg" id="logo-img"class="logo-img">
+                        </div>
+                    </a>
+                    {% if session.user_id %}
+                    <div class="nav-container">
+                        <div class="logged-in-nav-links">
+                            <a href="/me" id="me" class="nav-link">Portfolio</a>
+                            <a href="/browse" id="browse" class="nav-link">Browse</a>
+                            <a href="/buy" id="buy" class="nav-link">Buy</a>
+                            <a href="/Sell" id="sell" class="nav-link">Sell</a>
+                            <a href="/logout" id="logout" class="nav-link">Log Out</a>
+                        </div>
+                    </div>
+                    <hr>
+                    {% else %}
+                    <div class="nav-container">
+                        <div class="nav-links">
+                            <a href="/" id="home" class="nav-link">Home</a>
+                            <a href="/about" id="about" class="nav-link">About</a>
+                            <a href="/investing" id="investing" class="nav-link">Investing</a>
+                            <a href="/contact" id="contact" class="nav-link">Contact</a>
+                        </div>
+                        <div class="nav-buttons-container">
+                            <a href="/login" class="nav-button">Log In</a>
+                            <a href="/register" class="nav-button">Register</a>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+        </nav>
+        <nav class="nav-mobile" id="mobile-menu-holder">
+            <div class="nav-holder-mobile">
+                <ul class="nav-list-mobile">
+                    <li class="mobile-logo">
+                        <a href="/">
+                        <img src="static/logo2.jpg" class="mobile-logo-img">
+                        </a>
+                    </li>
+                    <li id="mobile-menu" onclick="toggleNav();">
+                        <svg height="30" width="30" viewbox="0 0 30 30" class="open-button">
+                            <rect width="30" height="2"></rect>
+                            <rect y="10" width="30" height="2"></rect>
+                            <rect y="20" width="30" height="2"></rect>
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav id="mobile-dropped-menu">
+            <div class="nav-holder-mobile">
+                <ul class="nav-list-mobile">
+                    <li id="mobile-menu-close" onclick="toggleNav();">
+                        <img src="https://png.pngtree.com/svg/20140829/xicon_x_small_1312656.png">
+                    </li>
+                    <li class="mobile-logo">
+                        <a href="/">
+                        <img src="static/logo2.jpg" class="mobile-logo-img">
+                        </a>
+                    </li>
+                </ul>
+                <ul class="dropdown">
+                    {% if session.user_id %}
+                    <li class="dropdown-item">
+                        <a href="/me">My Portfolio</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/browse">Browse</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/buy">Buy</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/sell">Sell</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/logout">Log Out</a>
+                    </li>
+                    {% else %}
+                    <li class="dropdown-item">
+                        <a href="/register">Sign up</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/login">Log In</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/about">About</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/investing">Investing</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/me">Contact</a>
+                    </li>
+                   {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+        <div class="body-root">
+            {% block main %}{% endblock %}
+        </div>
+
+        <footer class="footer">
+            Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
+            <br>
+            Graphs by <a href="https://canvasjs.com/">Canvas JS</a>
+        </footer>
+
+    </body>
+
+</html>

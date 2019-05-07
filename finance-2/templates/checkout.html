@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block title %}
+    Slarbi Invest | checkout
+{% endblock %}
+{% block main %}
+{% if error %}
+<div class="full-page center-row-flex">
+    <div class="login-error">
+        {{ message }}
+        {% if method == 'buy' %}
+        Your account balance is too low to complete this action.
+        {% else %}
+        Bruh u can't sell more than u own.
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+<div class="full-page center-row-flex" style="margin-bottom: 7vh"><h1 class="hooks-title">{{ method }} {{ stock }}</h1></div>
+{% if method == "buy" %}
+<div class="full-page center-row-flex">
+    <div class="column-start-flex">
+        <h3 class="hooks-title">Buy {{ stock }}</h3>
+        <form action="/purchase" method="POST">
+            <div class="column-start-flex">
+            <input style="display: hidden" type="text" readonly name="stock" value="{{ stock }}">
+            <input name="quantity" id="input" type="number" placeholder="1" min="1">
+            <div class="center-row-flex">Total: $<span id="total">{{ price }}</span></div>
+            <input type="submit" class="submit-button" value="Buy">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+price = {{ price }};
+var input = document.getElementById('input');
+input.onchange = function(){
+    var output = document.getElementById('total');
+    console.log(input.value);
+    output.innerHTML = price * input.value;
+    console.log('updated to: ' +  price*input.value);
+}
+</script>
+{% else %}
+<div class="full-page center-row-flex">
+    <div class="column-start-flex">
+        <h3 class="hooks-title">Sell {{ stock }}</h3>
+        <form action="/purchase" method="POST">
+            <input type="text" readonly name="stock" value="{{ stock }}">
+            <input name="quantity" type="number" min="1" max="{{ max }}">
+            <div class="center-row-flex">Selling <span id="total">1</span> of {{ max }} owned stocks</div>
+            <div class="center-row-flex">
+            <input type="submit" class="bsbutton submit-button" value="Sell">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+var input = document.getElementById('input');
+input.onchange = function(){
+    var output = document.getElementById('total');
+    console.log(input.value);
+    output.innerHTML = input.value;
+    console.log('updated to: ' + input.value);
+}
+</script>
+{% endif %}
+{% endblock %}

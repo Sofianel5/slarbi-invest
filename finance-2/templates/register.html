@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <!--<form action="/register" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="first-name" placeholder="First Name" type="text"/>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="last-name" placeholder="Last Name" type="text"/>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>-->
+    <div class="login-body-container">
+    <div class="login-body-holder">
+        <div class="login-form-container">
+            <div class="form-holder">
+                <h1 class="login-h1">Sign Up</h1>
+                {% if error %}
+                <div class="login-error">
+                    {% if not username %}
+                        Please provide your username.
+                    {% endif %}
+                    {% if not password %}
+                        Please provide your password.
+                    {% endif %}
+                    {% if not validfname %}
+                        Please Provide a valid first name.
+                    {% endif %}
+                    {% if not validlname %}
+                        Please Provide a valid last name.
+                    {% endif %}
+                </div>
+                {% endif %}
+                <form action="/register" method="post" class="login-form" onsubmit="return authenticateSignup()">
+                     <div class="login-form-item">
+                        <input id="fname" class="form-control" name="first-name" placeholder="First Name" type="text"/>
+                    </div>
+                    <div id="no_fname" style="display: none">
+
+                    </div>
+                    <div class="login-form-item">
+                        <input id="lname" class="form-control" name="last-name" placeholder="Last Name" type="text"/>
+                    </div>
+                    <div id="no_lname" style="display: none">
+
+                    </div>
+                    <div class="login-form-item">
+                        <input id="username" autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+                    </div>
+                    <div id="no_username" style="display: none">
+
+                    </div>
+                    <div class="login-form-item">
+                        <input id="password" class="form-control" name="password" placeholder="Password" type="password"/>
+                    </div>
+                    <div id="no_password" style="display: none">
+
+                    </div>
+                    <div class="login-form-item">
+                        <input class="submit-button form-control" placeholder="Sign Up" value="Sign Up" type="submit"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

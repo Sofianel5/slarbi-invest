@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% block title %}
+    Slarbi Invest | {{ stock }}
+{% endblock %}
+{% block main %}
+<script>
+    window.onload = function() {
+    var chartyearhist = new CanvasJS.Chart("info-graph-holder", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Past Year"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for day in range(year['prices']|length) %}
+            {label: "{{ year['labels'][day] }}", y: {{ year['prices'][day] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    chartyearhist.render()
+    document.getElementById('yearbutton').onclick = function() {
+    var chartyearhist = new CanvasJS.Chart("info-graph-holder", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Past Year"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for day in range(year['prices']|length) %}
+            {label: "{{ year['labels'][day] }}", y: {{ year['prices'][day] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = '#001C5D'
+    chartyearhist.render()
+    };
+    document.getElementById('monthbutton').onclick = function(){
+    var chartmonthhist = new CanvasJS.Chart("info-graph-holder", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Past Month"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for day in range(month['prices']|length) %}
+            {label: "{{ month['labels'][day] }}", y: {{ month['prices'][day] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('monthbutton').style.color = '#001C5D'
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = 'white'
+    chartmonthhist.render()
+    };
+    document.getElementById('weekbutton').onclick = function(){
+    var chartweekhist = new CanvasJS.Chart("info-graph-holder", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Past Week"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for day in range(week['prices']|length) %}
+            {label: "{{ week['labels'][day] }}", y: {{ week['prices'][day] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('5ybutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('weekbutton').style.color = '#001C5D'
+    chartweekhist.render()
+    };
+    let nav = document.getElementById('buy')
+    nav.style.borderBottom = '3px solid #4ED48D'
+    }
+</script>
+<div class="column-start-flex">
+<div class="full-page center-row-flex">
+    <div class="pagetitle">
+        {{ name }}
+    </div>
+</div>
+<div class="full-page center-row-flex">
+    <div class="info-display-holder center-row-flex">
+        <div class="display-box column-start-flex">
+            <div class="full-page center-row-flex" style="height: 85%">
+                <div id="info-graph-holder">
+
+                </div>
+            </div>
+            <div class="center-row-flex">
+                <div class="graphtoggle" id="yearbutton">Year</div>
+                <div class="graphtoggle" id="monthbutton">Month</div>
+                <div class="graphtoggle" id="weekbutton">Week</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="full-page nav-buttons-container center-row-flex">
+    <a class="nav-button" href="/checkout?stock={{ stock }}&method=buy"style="color: white">BUY</a>
+    {% if owned %}
+    <a class="nav-button" href="/checkout?stock={{ stock }}&method=sell" style="color: white">SELL</a>
+    {% endif %}
+</div>
+<div>
+    TODO
+    <ul>
+        <li>Company leadership</li>
+        <li>Company's detailed finances</li>
+        <li>News</li>
+        <li>industry</li>
+        <li>description</li>
+    </ul>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,410 @@
+{% extends "layout.html" %}
+{% block title %}
+    Slarbi Invest
+{% endblock %}
+{% block main %}
+<script>
+    window.onload = function () {
+    {% for stock, number in stocks.items() %}
+    var chart{{ stock }} = new CanvasJS.Chart("graph{{ stock }}", {
+	animationEnabled: true,
+	backgroundColor: "#4ED48D",
+    colorSet: "#001C5D",
+	theme: "blue",
+	title:{
+		text: "Price of {{ stock }}"
+	 },
+	 axisY:{
+		includeZero: false
+	 },
+	 data: [{
+		type: "line",
+		yValueFormatString: "$#.###",
+		   dataPoints: [
+			    {% for i in range(0, graphinfo[stock]["prices"]| length) %}
+                {label: "{{ graphinfo[stock]['labels'][i] }}", y: {{ graphinfo[stock]['prices'][i] }} },
+                {% endfor %}
+		               ]
+	  }]
+    });
+    chart{{ stock }}.render();
+    {% endfor %}
+    var chartmaxhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "All history"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in balances %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    chartmaxhist.render()
+    document.getElementById('maxbutton').onclick = function() {
+    var chartmaxhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "All history"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in balances %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('projectedbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = 'white'
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('maxbutton').style.color = '#001C5D'
+    chartmaxhist.render()
+    };
+    document.getElementById('yearbutton').onclick = function(){
+    var chartyearhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Year history"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in year %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('projectedbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = '#001C5D'
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('maxbutton').style.color = 'white'
+    chartyearhist.render()
+    };
+    document.getElementById('monthbutton').onclick = function(){
+    var chartmonthhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Month history"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in month %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    document.getElementById('projectedbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = 'white'
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = '#001C5D'
+    document.getElementById('maxbutton').style.color = 'white'
+    chartmonthhist.render()
+    };
+    document.getElementById('weekbutton').onclick = function(){
+    var chartweekhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Week history"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in week %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    chartweekhist.render()
+    document.getElementById('projectedbutton').style.color = 'white'
+    document.getElementById('yearbutton').style.color = 'white'
+    document.getElementById('weekbutton').style.color = '#001C5D'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('maxbutton').style.color = 'white'
+    };
+    document.getElementById('projectedbutton').onclick = function(){
+    var chartweekhist = new CanvasJS.Chart("maxhist", {
+    animationEnabled: true,
+    backgroundColor: '#4ED48D',
+    colorSet:"#001C5D",
+    theme: 'blue',
+    title: {
+        text: "Projected Growth Based On History"
+    },
+    axisY: {
+        includeZero: false
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "$#.###",
+        dataPoints: [
+            {% for balance in projected %}
+            {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+            {% endfor %}
+            ]
+    }],
+    options: {
+        responsive: true,
+    }
+    });
+    chartweekhist.render()
+    document.getElementById('projectedbutton').style.color = '#001C5D'
+    document.getElementById('yearbutton').style.color = 'white'
+    document.getElementById('weekbutton').style.color = 'white'
+    document.getElementById('monthbutton').style.color = 'white'
+    document.getElementById('maxbutton').style.color = 'white'
+    };
+    let nav = document.getElementById('me')
+    nav.style.borderBottom = '3px solid #4ED48D'
+    }
+</script>
+    </script>
+<div class="portfolio-body">
+    <div class="page-container center-row-flex">
+        <div class="column-start-flex">
+            <div class="greeting-holder">
+                <h1 class="greeting">Hello, {{ name }}</h1>
+            </div>
+
+
+            <div class="account-history-display stock-display-holder column-start-flex">
+                <!--<div class="graphsym-holder column-start-flex">
+                    <div class="balance-header symbol-holder">
+                        <h3 class="acc-balance-title symbol">Account history</h3>
+                    </div>
+                </div>-->
+                <div class="accgraphninfo graphninfo-holder center-row-flex">
+                    <div class="content-holder start-row-flex graph" height="30vh" width="75%" id="maxhist">
+                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                        <div class="graphhist-container">
+                            <div class="histgraph" width="100%" height="100%" id="graph">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overviewcontainer column-start-flex">
+                    <div class="overview-holder center-row-flex">
+                        <div class="column-center-flex">
+                            <div class="bold stock-title">
+                                Account Balance
+                            </div>
+                            {% set diffyear = year[((year|length) - 1)]['balance'] - year[0]['balance'] %}
+                            {% set yearpercentchange = ((diffyear/year[0]['balance']) * 100)|round(2) %}
+                            <div class="stock-overview">
+                                <span style="color: #001C5D; font-weight: 400;">Year: </span>
+                                    {% if diffyear > 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&uarr;&thinsp;</span>
+                                    {% elif diffyear < 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #d50000; font-weight: 700;">&thinsp;&darr;&thinsp;</span>
+                                    {% else %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&rarr;&thinsp;</span>
+                                    {% endif %}
+                                    <span {% if diffyear >= 0 %} style="color: #001C5D;" {% else %} style="color: #d50000;" {% endif %}>
+                                    ${{ diffyear|round(2) }} ({{ yearpercentchange }}%)
+                                    </span>
+                            </div>
+                            <br>
+                            {% set diffmonth = month[((month|length) - 1)]['balance'] - month[0]['balance'] %}
+                            {% set monthpercentchange = ((diffmonth/month[0]['balance']) * 100)|round(2) %}
+                            <div class="stock-overview">
+                                <span style="color: #001C5D; font-weight: 400;">Month: </span>
+                                    {% if diffmonth > 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&uarr;&thinsp;</span>
+                                    {% elif diffmonth < 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #d50000; font-weight: 700;">&thinsp;&darr;&thinsp;</span>
+                                    {% else %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&rarr;&thinsp;</span>
+                                    {% endif %}
+                                    <span {% if diffmonth >= 0 %} style="color: #001C5D;" {% else %} style="color: #d50000;" {% endif %}>
+                                    ${{ diffmonth|round(2) }} ({{ monthpercentchange }}%)
+                                    </span>
+                            </div>
+                            <br>
+                            {% set diffweek = (week[((week|length) - 1)]['balance'] - week[0]['balance'])|round(2) %}
+                            {% set weekpercentchange = ((diffweek/week[0]['balance']) * 100)|round(2) %}
+                            <div class="stock-overview">
+                                <span style="color: #001C5D; font-weight: 400;">Week: </span>
+                                    {% if diffweek > 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&uarr;&thinsp;</span>
+                                    {% elif diffweek < 0 %}
+                                    <span style="color: white; border-radius: 50%; background-color: #d50000; font-weight: 700;">&thinsp;&darr;&thinsp;</span>
+                                    {% else %}
+                                    <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&rarr;&thinsp;</span>
+                                    {% endif %}
+                                    <span {% if diffweek >= 0 %} style="color: #001C5D;" {% else %} style="color: #d50000;" {% endif %}>
+                                    ${{ diffweek|round(2) }} ({{ weekpercentchange }}%)
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="start-row-flex">
+                    <div class="graphtoggle" id="maxbutton">Max</div>
+                    <div class="graphtoggle" id="yearbutton">Year</div>
+                    <div class="graphtoggle" id="monthbutton">Month</div>
+                    <div class="graphtoggle" id="weekbutton">Week</div>
+                    <div class="graphtoggle" id="projectedbutton">Projected</div>
+                </div>
+            </div>
+
+
+            <div class="item-headers center-row-flex">
+                <div class="activity-header item-header-holder">
+                        <h3 class="item-header">Activity</h3>
+                </div>
+                <div class="trades-header item-header-holder">
+                        <h3 class="item-header">Trades</h3>
+                    </div>
+            </div>
+            <div class="portfolio-holder center-row-flex">
+                <div class="activity-container column-start-flex">
+                    <div class="at-holder center-row-flex">
+                        <div class="at-holder column-start-flex">
+                            {% for stock, number in stocks.items() %}
+
+
+                            <div class="stock-display-holder column-start-flex">
+                                <div class="graphnsym-holder column-center-flex">
+                                    <div class="symbol-holder">
+                                        <h3 class="symbol">{{ stock }}</h3>
+                                    </div>
+                                </div>
+                                <div class="graphninfo-holder center-row-flex">
+                                <div class="content-holder center-row-flex">
+                                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                    <div class="graph-container">
+                                        <div width="100%" height="200px" class="graph" id="graph{{ stock }}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="overview-holder center-row-flex">
+                                        <div class="column-center-flex">
+                                        <div class="stock-title">
+                                            {{ stockinfo[stock]["name"] }}
+                                        </div>
+                                        {% set diff = (graphinfo[stock]["prices"][graphinfo[stock]["prices"]| length - 1] - graphinfo[stock]["prices"][0])|round(2) %}
+                                        <div class="stock-overview">
+                                            <span style="color: #001C5D; font-weight: 400;">Month: </span>
+                                            {% if diff > 0 %}
+                                            <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&uarr;&thinsp;</span>
+                                            {% elif diff < 0 %}
+                                            <span style="color: white; border-radius: 50%; background-color: #d50000; font-weight: 700;">&thinsp;&darr;&thinsp;</span>
+                                            {% else %}
+                                            <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&rarr;&thinsp;</span>
+                                            {% endif %}
+                                            <span {% if diff >= 0 %} style="color: #001C5D;" {% else %} style="color: #d50000;" {% endif %}>
+                                            ${{ diff }}
+                                            </span>
+                                        </div>
+                                        {% set percentchange = ((diff/graphinfo[stock]["prices"][0]) * 100)|round(3) %}
+                                        <div class="stock-overview">
+                                        You {% if diff > 0 %}gained{% else %} lost {% endif %} ${{ (number*diff)|round(2) }},
+                                        {% if diff > 0 %} up {% else %} down {% endif %}{{ percentchange }}%
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="trades-container column-start-flex">
+                    <div class="at-holder center-row-flex">
+                       <div class="trades-holder column-start-flex">
+                           {% for trade in trades %}
+                            <div class="trade center-row-flex">
+                                <div class="type">
+                                    {% if trade["method"] == 1 %}
+                                    Bought
+                                    {% else %}
+                                    Sold
+                                    {% endif %}
+                                </div>
+                                <div class="stock">
+                                    {{ trade['stock'] }}
+                                </div>
+                                <div class="number">
+                                    {{ trade['quantity'] }}
+                                </div>
+                                <div class="cost">
+                                    ${{ trade['quantity'] * trade['price'] }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mobile-portfolio-body">
+
+</div>
+{% endblock %}

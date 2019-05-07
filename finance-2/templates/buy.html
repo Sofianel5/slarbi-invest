@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+{% block title %}
+    Slarbi Invest | Buy
+{% endblock %}
+{% block main %}
+<div class="buy-body center-row-flex">
+    <div class="column-start-flex">
+        <div class="buy-title-top center-row-flex">
+            <div class="buy-title-block start-row-flex">
+                <h3 class="buy-title">Buy stocks</h3>
+            </div>
+            <div class="buy-search-holder center-row-flex">
+                <div class="buy-search">
+                    Search:
+                </div>
+                <script>
+                    let input = document.getElementById('buysearch');
+                    input.onsubmit = function() {
+
+                    };
+                </script>
+                <input class="search-input" id="buysearch" placeholder="Enter name or symbol" autocomplete="off" autofocus type="text">
+            </div>
+        </div>
+        <div class="full-page center-row-flex">
+            <div class="buy-box column-start-flex">
+                <div style="width: 100%" class="center-row-flex">
+                    <div class="buy-box-options center-row-flex">
+                        <div class="filters start-flex-row">
+
+                        </div>
+                        <div class="sorts end-flex-row">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="center-row-flex" style="width: 100%">
+                    <div class="object-holder column-start-flex">
+
+
+                        <div class="stock-object center-row-flex">
+                            <div class="stock-logo-holder">
+                                <div class="center-row-flex">
+                                    <div class="column-center-flex">
+                                        <img class="stock-logo" src="https://ubigo.me/wp-content/uploads/2019/01/sl_logo_fb-2.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buystock-names column-center-flex">
+                                <div class="buystock-symbol">SLI</div>
+                                <div class="buystock-name">S.L. Industries</div>
+                            </div>
+                            <div class="buystock-graph" id="slindustries">
+
+                            </div>
+                            <script>
+                                var chartsl = new CanvasJS.Chart("slindustries", {
+                                animationEnabled: true,
+                                backgroundColor: '#4ED48D',
+                                colorSet:"#001C5D",
+                                theme: 'blue',
+                                title: {
+                                    text: ""
+                                },
+                                axisY: {
+                                    includeZero: false
+                                },
+                                data: [{
+                                    type: "line",
+                                    yValueFormatString: "$#.###",
+                                    dataPoints: [
+                                        {% for balance in test %}
+                                        {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+                                        {% endfor %}
+                                        ]
+                                }],
+                                options: {
+                                    responsive: true,
+                                }
+                                });
+                                chartsl.render()
+                            </script>
+                            <div class="buystock-data center-column-flex">
+                                <div class="data-year">
+                                    Year: +$89 (23%)
+                                </div>
+                                <div class="data-month">
+                                    Month: +$13 (12%)
+                                </div>
+                                <div class="data-price">
+                                    $473.29
+                                </div>
+                            </div>
+                            <div class="buy-button-holder column-start-flex">
+                                <div class="buy-button center-row-flex">BUY</div>
+                            </div>
+                        </div>
+
+                        {% for stock in stocks %}
+                        <div class="stock-object center-row-flex">
+                            <div class="stock-logo-holder">
+                                <div class="center-row-flex">
+                                    <div class="column-center-flex">
+                                        <img class="stock-logo" src="{{ stockinfo[stock]['logo_url'] }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buystock-names column-center-flex">
+                                <div class="buystock-symbol">{{ stock }}</div>
+                                <div class="buystock-name">{{ stockinfo[stock]["name"] }}</div>
+                            </div>
+                            <div class="buystock-graph" id="{{ stock }}">
+
+                            </div>
+                            <script>
+                                var chart{{ stock }} = new CanvasJS.Chart("{{ stock }}", {
+                                animationEnabled: true,
+                                backgroundColor: '#4ED48D',
+                                colorSet:"#001C5D",
+                                theme: 'blue',
+                                title: {
+                                    text: ""
+                                },
+                                axisY: {
+                                    includeZero: false
+                                },
+                                data: [{
+                                    type: "line",
+                                    yValueFormatString: "$#.###",
+                                    dataPoints: [
+                                        {% for i in range(0, graphinfo[stock]["prices"]| length) %}
+                                        {label: "{{ graphinfo[stock]['labels'][i] }}", y: {{ graphinfo[stock]['prices'][i] }} },
+                                        {% endfor %}
+                                        ]
+                                }],
+                                options: {
+                                    responsive: true,
+                                }
+                                });
+                                chart{{ stock }}.render()
+                            </script>
+                            <div class="buystock-data center-column-flex">
+                                <div class="data-year">
+                                    Year: +$89 (23%)
+                                </div>
+                                <div class="data-month">
+                                    Month: +$13 (12%)
+                                </div>
+                                <div class="data-price">
+                                    $473.29
+                                </div>
+                            </div>
+                            <div class="buy-button-holder column-start-flex">
+                                <div class="buy-button center-row-flex">BUY</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function() {
+        document.getElementById('buy').style.borderBottom = '3px solid #4ED48D';
+    };
+</script>
+{% endblock %}

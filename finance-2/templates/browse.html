@@ -1,0 +1,189 @@
+{% extends "layout.html" %}
+{% block title %}
+    Slarbi Invest | Browse
+{% endblock %}
+{% block main %}
+<div class="buy-body center-row-flex">
+    <div class="column-start-flex">
+        <div class="buy-title-top center-row-flex">
+            <div class="buy-title-block start-row-flex">
+                <h3 class="buy-title">Browse stocks</h3>
+            </div>
+            <div class="buy-search-holder center-row-flex">
+                <div class="buy-search">
+                    Search:
+                </div>
+                <form id="search-form" class="center-row-flex" onsubmit="return false">
+                <input class="search-input" id="buysearch" placeholder="Enter name or symbol" autocomplete="off" autofocus type="text">
+                <input id="submit-button" type="image" value="submit" src="https://findicons.com/files/icons/2781/google_jfk_icons/128/search.png">
+                </form>
+            </div>
+        </div>
+        <div class="full-page center-row-flex">
+            <div class="buy-box column-start-flex">
+                <div style="width: 100%" class="center-row-flex">
+                    <div class="buy-box-options column-start-flex">
+                        <div class="filters center-row-flex">
+                        Sort by: [TODO]
+                        <span value="plh" class="filer">Price low to high</span>
+                        <span id="phl" class="filer">Price high to low</span>
+                        <span id="glh" class="filer">Growth low to high</span>
+                        <span id="" class="filer">Growth high to low</span>
+                        </div>
+                        <div class="sorts center-row-flex">
+                        Filter [TODO] industry, growth cap, price cap,
+                        </div>
+                    </div>
+                </div>
+                <div class="center-row-flex" style="width: 100%">
+                    <div id="object-holder" class="object-holder column-start-flex">
+
+
+                        <div class="stock-object center-row-flex">
+                            <div class="stock-logo-holder">
+                                <div class="center-row-flex">
+                                    <div class="column-center-flex">
+                                        <img class="stock-logo" src="https://ubigo.me/wp-content/uploads/2019/01/sl_logo_fb-2.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buystock-names column-center-flex">
+                                <div class="buystock-symbol">SLI</div>
+                                <div class="buystock-name">S.L. Industries</div>
+                            </div>
+                            <div class="buystock-graph" id="slindustries">
+
+                            </div>
+                            <script>
+                                var chartsl = new CanvasJS.Chart("slindustries", {
+                                animationEnabled: true,
+                                backgroundColor: '#4ED48D',
+                                colorSet:"#001C5D",
+                                theme: 'blue',
+                                title: {
+                                    text: ""
+                                },
+                                axisY: {
+                                    includeZero: false
+                                },
+                                data: [{
+                                    type: "line",
+                                    yValueFormatString: "$#.###",
+                                    dataPoints: [
+                                        {% for balance in test %}
+                                        {label: "{{ balance['day'] }}", y: {{ balance['balance'] }} },
+                                        {% endfor %}
+                                        ]
+                                }],
+                                options: {
+                                    responsive: true,
+                                }
+                                });
+                                chartsl.render()
+                            </script>
+                            <div class="buystock-data center-column-flex">
+                                <div class="data-year">
+                                    Year: +$89 (23%)
+                                </div>
+                                <div class="data-month">
+                                    Month: +$13 (12%)
+                                </div>
+                                <div class="data-price">
+                                    $473.29
+                                </div>
+                            </div>
+                            <div class="buy-button-holder column-start-flex">
+                                <div class="buy-button center-row-flex">BUY</div>
+                            </div>
+                        </div>
+
+                        {% for stock in stocks %}
+                        <div class="stock-object center-row-flex">
+                            <div class="stock-logo-holder">
+                                <div class="center-row-flex">
+                                    <div class="column-center-flex">
+                                        <img class="stock-logo" src="{{ stockinfo[stock]['logo_url'] }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buystock-names column-center-flex">
+                                <div class="buystock-symbol">{{ stock }}</div>
+                                <div class="buystock-name">{{ stockinfo[stock]["name"] }}</div>
+                            </div>
+                            <div class="buystock-graph" id="{{ stock }}">
+
+                            </div>
+                            <div class="buystock-data center-column-flex">
+                                <!--<div class="data-year">
+                                    Year: +$89 (23%)
+                                </div>-->
+                                <div class="stock-price center-row-flex">Price: ${{ graphinfo[stock]['prices'][graphinfo[stock]["prices"]| length - 1] }}</div>
+                                {% set diff = (graphinfo[stock]["prices"][graphinfo[stock]["prices"]| length - 1] - graphinfo[stock]["prices"][0])|round(2) %}
+                                {% set percentchange = ((diff/graphinfo[stock]["prices"][0]) * 100)|round(2) %}
+                                <div class="data-month center-row-flex">
+                                    <span style="color: #001C5D; font-weight: 400;">Month: </span>
+                                            {% if diff > 0 %}
+                                            <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&uarr;&thinsp;</span>
+                                            {% elif diff < 0 %}
+                                            <span style="color: white; border-radius: 50%; background-color: #d50000; font-weight: 700;">&thinsp;&darr;&thinsp;</span>
+                                            {% else %}
+                                            <span style="color: white; border-radius: 50%; background-color: #001C5D; font-weight: 700;">&thinsp;&rarr;&thinsp;</span>
+                                            {% endif %}
+                                            <span {% if diff >= 0 %} style="color: #001C5D;" {% else %} style="color: #d50000;" {% endif %}>
+                                            ${{ diff }},<br> ({{ percentchange }}%)
+                                    </span>
+                                </div>
+                                <!--<div class="data-price">
+                                    $473.29
+                                </div>-->
+                            </div>
+                            <div class="buy-button-holder column-start-flex">
+                                <a href="/stock?stock={{ stock }}">
+                                <div class="buy-button center-row-flex">See More</div>
+                                </a>
+                            </div>
+                        </div>
+                        <script>
+                                var chart{{ stock }} = new CanvasJS.Chart('{{ stock }}', {
+                                animationEnabled: true,
+                                backgroundColor: '#4ED48D',
+                                colorSet:'#001C5D',
+                                theme: 'blue',
+                                title: {
+                                    text: ''
+                                },
+                                axisY: {
+                                    includeZero: false
+                                },
+                                data: [{
+                                    type: 'line',
+                                    yValueFormatString: '$#.###',
+                                    dataPoints: [
+                                        {% for i in range(0, graphinfo[stock]["prices"]| length) %}
+                                        {label: "{{ graphinfo[stock]['labels'][i] }}", y: {{ graphinfo[stock]['prices'][i] }} },
+                                        {% endfor %}
+                                        ]
+                                }],
+                                options: {
+                                    responsive: true,
+                                }
+                                });
+                                chart{{ stock }}.render()
+                            </script>
+                        {% endfor %}
+                        <div id="loader" class="center-row-flex" style="width: 100%; margin-top: 4%">
+                            <div id="load-button" value="1" style="color: #4ED48D; font-weight: 500">Load More</div>
+                            <script src="static/browse.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function() {
+        document.getElementById('browse').style.borderBottom = '3px solid #4ED48D';
+    };
+</script>
+{% endblock %}

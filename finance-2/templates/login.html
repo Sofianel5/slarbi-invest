@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+<div class="login-body-container">
+    <div class="login-body-holder">
+        <div class="login-form-container">
+            <div class="form-holder">
+                <h1 class="login-h1">Log In</h1>
+                {% if error %}
+                <div class="login-error">
+                    {% if not username %}
+                        Please provide your username.
+                    {% endif %}
+                    {% if not password %}
+                        Please provide your password.
+                    {% endif %}
+                    {% if wrong %}
+                        Incorrect username or password.
+                    {% endif %}
+                </div>
+                {% endif %}
+                <form action="/login" method="post" class="login-form" onsubmit="return authenticateLogin()">
+                    <div class="login-form-item">
+                        <input id="username" autocomplete="on" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+                    </div>
+                    <div id="no_username" style="display: none">
+
+                    </div>
+                    <div class="login-form-item">
+                        <input id="password" class="form-control" name="password" placeholder="Password" type="password"/>
+                    </div>
+                    <div id="no_password" style="display: none">
+    `
+                    </div>
+                    <div class="login-form-item">
+                        <input class="submit-button form-control" placeholder="Log In" value="Log In" type="submit"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
